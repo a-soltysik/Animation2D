@@ -38,11 +38,12 @@ class Animation(val preferredFps: Int = UNLIMITED_FPS) {
     }
 
     fun addObject(drawable: Drawable, layer: Int) {
-        if (objects[layer] == null) {
-            val list = ArrayList(Collections.singletonList(drawable))
+        var list = objects[layer]
+        if (list == null) {
+            list = ArrayList(Collections.singletonList(drawable))
             objects[layer] = list
         } else {
-            objects[layer]?.add(drawable)
+            list.add(drawable)
         }
     }
 
@@ -121,23 +122,27 @@ class Animation(val preferredFps: Int = UNLIMITED_FPS) {
         }
     }
 
-    fun removeObjects(drawable: Drawable) {
+    fun removeObject(drawable: Drawable) {
         for ((k, v) in objects) {
             v.removeIf{ o -> o === drawable}
         }
     }
 
-    inline fun <reified T : Drawable> removeObject() {
-        removeObject(T::class.java)
+    inline fun <reified T : Drawable> removeObjects(number: Int = Int.MAX_VALUE) {
+        removeObjects(T::class.java, number)
     }
 
-    fun <T : Drawable> removeObject(type: Class<T>) {
+    fun <T : Drawable> removeObjects(type: Class<T>, number: Int) {
+        require(number >= 0) {"number of objects cannot by lower than 0"}
+        var counter = 0
         for ((k, v) in objects) {
-            for (drawable in v) {
-                if (type.isAssignableFrom(drawable.javaClass)) {
-                    v.remove(drawable)
-                    return
+            var i = 0
+            while(i < v.size) {
+                if (type.isAssignableFrom(v[i].javaClass)) {
+                    v.removeAt(i--)
+                    if (++counter >= number) return
                 }
+                i++
             }
         }
     }
