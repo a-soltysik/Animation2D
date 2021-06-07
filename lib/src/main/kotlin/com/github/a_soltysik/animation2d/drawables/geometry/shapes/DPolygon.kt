@@ -10,15 +10,18 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-class DPolygon(private val vertices: Array<Vector2>) : IShape {
+open class DPolygon(private val vertices: Array<Vector2>, isOnPosition: Boolean = true) : IShape {
     constructor(numberOfSides: Int, radius: Float, isOnPosition: Boolean = true, random: Boolean = false)
-            : this(Array<Vector2>(numberOfSides) { Vector2() }){
+            : this(Array<Vector2>(numberOfSides) { Vector2() }, isOnPosition){
         generateRegularPolygon(radius)
         if (random) {
             addNoise()
         }
+    }
+
+    init {
         if (!isOnPosition) {
-            translate(getCenter() * -1f)
+            this.translate(getCenter() * -1f)
         }
     }
 
