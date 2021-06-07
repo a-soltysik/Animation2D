@@ -78,7 +78,6 @@ class Animation(val preferredFps: Int = UNLIMITED_FPS) {
         while (true) {
             update()
             render()
-
             currentTime = System.nanoTime()
             frameTimeNanos = currentTime - previousTime
             previousTime = currentTime
