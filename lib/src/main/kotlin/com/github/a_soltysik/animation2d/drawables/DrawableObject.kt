@@ -14,6 +14,8 @@ abstract class DrawableObject(
 ) : Drawable {
     val boundingBox
         get() = shape.getBoundingBox()
+    internal val logger
+        get() = animation.logger
     var position = position
         internal set(value) {
             val diff = value - position

@@ -2,6 +2,8 @@ package com.github.a_soltysik.animation2d
 
 import com.github.a_soltysik.animation2d.drawables.Drawable
 import com.github.a_soltysik.animation2d.gui.AnimationPanel
+import com.github.a_soltysik.animation2d.gui.FramePanel
+import com.github.a_soltysik.animation2d.gui.Logger
 import java.awt.Graphics2D
 import java.lang.reflect.InvocationTargetException
 import java.util.*
@@ -11,7 +13,9 @@ import kotlin.collections.ArrayList
 
 class Animation(val preferredFps: Int = UNLIMITED_FPS) {
     private val objects: TreeMap<Int, ArrayList<Drawable>> = TreeMap()
-    var animationPanel: AnimationPanel? = null
+    lateinit var animationPanel: AnimationPanel
+        internal set
+    lateinit var logger: Logger
         internal set
     private var frameTime = 0.0
     private val timeScale = 1_000_000_000
@@ -22,7 +26,7 @@ class Animation(val preferredFps: Int = UNLIMITED_FPS) {
     }
 
     fun start() {
-        if (animationPanel == null) {
+        if (!this::animationPanel.isInitialized) {
             return
         }
         object : SwingWorker<Void, Void>() {
