@@ -4,6 +4,7 @@ import com.github.a_soltysik.animation2d.drawables.Drawable
 import com.github.a_soltysik.animation2d.gui.AnimationPanel
 import com.github.a_soltysik.animation2d.gui.FramePanel
 import com.github.a_soltysik.animation2d.gui.Logger
+import com.github.a_soltysik.animation2d.gui.OptionsPanel
 import java.awt.Graphics2D
 import java.lang.reflect.InvocationTargetException
 import java.util.*
@@ -16,6 +17,8 @@ class Animation(val preferredFps: Int = UNLIMITED_FPS) {
     lateinit var animationPanel: AnimationPanel
         internal set
     lateinit var logger: Logger
+        internal set
+    lateinit var options: OptionsPanel
         internal set
     private var frameTime = 0.0
     private val timeScale = 1_000_000_000
